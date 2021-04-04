@@ -11,6 +11,11 @@ public class WomanController : MonoBehaviour
     [SerializeField] Transform handShownTransform;
     [SerializeField] float waitTimeUntilShowHand = 1.0f;
 
+
+    [SerializeField] Transform handUpTransform;
+    [SerializeField] Transform handDown1Transform;
+    [SerializeField] Transform handDown2Transform;
+
     float timeStopped;
 
     Vector3 handHiddenPosition;
@@ -23,7 +28,8 @@ public class WomanController : MonoBehaviour
     {
         hidden,
         showing,
-        shown
+        shown,
+        shooting
     }
 
     HandState handState;
@@ -73,7 +79,12 @@ public class WomanController : MonoBehaviour
     {
         handState = HandState.showing;
         handTweener.Kill();
-        handTweener = hand.DOLocalMove(handShownTransform.localPosition, 1.0f);
+        handTweener = hand.DOLocalMove(handShownTransform.localPosition, 1.0f).OnComplete(SetHandAsShown);
+    }
+
+    void SetHandAsShown()
+    {
+        handState = HandState.shown;
     }
 
     void HideHand()
@@ -83,12 +94,33 @@ public class WomanController : MonoBehaviour
         handTweener = hand.DOLocalMove(handHiddenPosition, 0.5f);
     }
 
+    void ShootHand()
+    {
+        timeStopped = 0;
+        handState = HandState.shooting;
+        // handTweener.Kill();
+
+        // handTweener = hand.DOLocalMove(handUpTransform.position, 0.5f);
+        Sequence handShootSequence = DOTween.Sequence();
+        handShootSequence.Append(hand.DOLocalMove(handUpTransform.localPosition, 0.5f));
+        handShootSequence.Append(hand.DOLocalPath(new Vector3[] { handUpTransform.localPosition, handDown1Transform.localPosition, handDown2Transform.localPosition }, 0.1f, PathType.CatmullRom, PathMode.Ignore, 10).SetEase(Ease.Linear));
+        handShootSequence.OnComplete(HandImpact);
+    }
+
+    void HandImpact()
+    {
+        HideHand();
+    }
+
     void ShouldShowHand()
     {
         if(rb.velocity.x == 0 && handState == HandState.hidden && timeStopped > waitTimeUntilShowHand)
             ShowHand();
 
-        if(rb.velocity.x != 0 && handState == HandState.showing)
+        if(rb.velocity.x != 0 && (handState == HandState.showing || handState == HandState.shown))
             HideHand();
+
+        if(handState == HandState.shown && Input.GetKeyDown("space"))
+            ShootHand();
     }
 }
