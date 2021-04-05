@@ -19,6 +19,10 @@ public class WomanController : MonoBehaviour
 
     [SerializeField] ParticleSystem explosion;
 
+    [Header ("Movement Limits")]
+    [SerializeField] Transform limitLeft;
+    [SerializeField] Transform limitRight;
+
 
     [Header ("Hand Positions")]
     [SerializeField] Transform handShownTransform;
@@ -67,6 +71,7 @@ public class WomanController : MonoBehaviour
         UpdateTimeStopped();
         HandControllers();
         SetTargetMan();
+        CheckLimits();
     }
 
     void UpdateTimeStopped()
@@ -170,4 +175,14 @@ public class WomanController : MonoBehaviour
         if(handState != HandState.shooting && Input.GetKeyDown("space"))
             ShootHand();
     }
+
+    void CheckLimits()
+    {
+        if(transform.position.x < limitLeft.position.x)
+            transform.position = new Vector3(limitLeft.position.x, transform.position.y, transform.position.z);
+
+        if(transform.position.x > limitRight.position.x)
+            transform.position = new Vector3(limitRight.position.x, transform.position.y, transform.position.z);
+    }
+
 }
