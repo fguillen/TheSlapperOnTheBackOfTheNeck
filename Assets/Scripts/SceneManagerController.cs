@@ -29,6 +29,6 @@ public class SceneManagerController : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence.Append(mainCamera.DOShakePosition(duration, new Vector3(0, strength, 0), vibrato, randomness, fadeOut));
-        // sequence.Append(mainCamera.DOMove(cameraOriginalPosition, 0.2f));
+        sequence.Append(mainCamera.transform.DOMove(cameraOriginalPosition, 0.2f));
     }
 }

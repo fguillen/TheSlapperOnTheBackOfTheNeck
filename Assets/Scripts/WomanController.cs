@@ -28,6 +28,7 @@ public class WomanController : MonoBehaviour
     [SerializeField] Transform handDown2WrapperTransform;
 
 
+    RandomSoundPlayer randomSoundPlayer;
     ManController targetMan;
     float timeStopped;
 
@@ -50,6 +51,7 @@ public class WomanController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        randomSoundPlayer = GetComponent<RandomSoundPlayer>();
         handHiddenPosition = hand.localPosition;
         handTrail.enabled = false;
     }
@@ -141,6 +143,7 @@ public class WomanController : MonoBehaviour
         timeStopped = 0;
         SceneManagerController.Instance.ShakeCamera();
         ShowExplosion();
+        PlaySnapSound();
         HideHand();
         handTrail.enabled = false;
     }
@@ -149,6 +152,11 @@ public class WomanController : MonoBehaviour
     {
         ParticleSystem newExplostion = Instantiate(explosion, targetMan.Head.position, Quaternion.identity);
         Destroy(newExplostion.gameObject, 2f);
+    }
+
+    void PlaySnapSound()
+    {
+        randomSoundPlayer.Play();
     }
 
     void HandControllers()
