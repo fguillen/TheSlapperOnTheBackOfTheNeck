@@ -31,9 +31,18 @@ public class ManController : MonoBehaviour
 
     public void BounceHead()
     {
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(Head.DOShakePosition(2.0f, strength: new Vector3(0, strength, 0), vibrato: vibrato, randomness: randomness, snapping: snapping, fadeOut: fadeOut));
-        sequence.Append(Head.DOMove(headOriginalPosition, 0.2f));
+        // Head.DOShakeScale(duration: 0.5f, strength: new Vector3(1, 1, 0), vibrato: 2, randomness: 0, fadeOut: true);
+        Sequence sequenceScale = DOTween.Sequence();
+        sequenceScale.Append(Head.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.1f));
+        sequenceScale.AppendInterval(0.3f);
+
+        sequenceScale.Append(Head.DOScale(new Vector3(1, 1, 1), 0.1f));
+
+
+
+        // Sequence sequenceBouncing = DOTween.Sequence();
+        sequenceScale.Join(Head.DOShakePosition(2.0f, strength: new Vector3(0, strength, 0), vibrato: vibrato, randomness: randomness, snapping: snapping, fadeOut: fadeOut));
+        sequenceScale.Append(Head.DOMove(headOriginalPosition, 0.2f));
     }
 
 }
