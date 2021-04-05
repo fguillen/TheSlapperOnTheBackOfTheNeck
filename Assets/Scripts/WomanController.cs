@@ -10,6 +10,7 @@ public class WomanController : MonoBehaviour
     [SerializeField] Transform hand;
     [SerializeField] Transform handShownTransform;
     [SerializeField] float waitTimeUntilShowHand = 1.0f;
+    [SerializeField] TrailRenderer handTrail;
 
 
     [SerializeField] Transform handUpTransform;
@@ -38,6 +39,7 @@ public class WomanController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         handHiddenPosition = hand.localPosition;
+        handTrail.enabled = false;
     }
 
     void Start()
@@ -98,6 +100,7 @@ public class WomanController : MonoBehaviour
     {
         timeStopped = 0;
         handState = HandState.shooting;
+        handTrail.enabled = true;
         // handTweener.Kill();
 
         // handTweener = hand.DOLocalMove(handUpTransform.position, 0.5f);
@@ -110,6 +113,7 @@ public class WomanController : MonoBehaviour
     void HandImpact()
     {
         HideHand();
+        handTrail.enabled = false;
     }
 
     void ShouldShowHand()
