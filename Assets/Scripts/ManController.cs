@@ -32,17 +32,18 @@ public class ManController : MonoBehaviour
     public void BounceHead()
     {
         // Head.DOShakeScale(duration: 0.5f, strength: new Vector3(1, 1, 0), vibrato: 2, randomness: 0, fadeOut: true);
-        Sequence sequenceScale = DOTween.Sequence();
-        sequenceScale.Append(Head.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 0.1f));
-        sequenceScale.AppendInterval(0.3f);
+        float scale = Random.Range(1.2f, 1.6f);
+        float scaleDuration = Random.Range(0.1f, 0.3f);
+        float rotation = Random.Range(-20f, 20f);
 
-        sequenceScale.Append(Head.DOScale(new Vector3(1, 1, 1), 0.1f));
-
-
-
-        // Sequence sequenceBouncing = DOTween.Sequence();
-        sequenceScale.Join(Head.DOShakePosition(2.0f, strength: new Vector3(0, strength, 0), vibrato: vibrato, randomness: randomness, snapping: snapping, fadeOut: fadeOut));
-        sequenceScale.Append(Head.DOMove(headOriginalPosition, 0.2f));
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(Head.DOScale(new Vector3(scale, scale, scale), 0.1f));
+        sequence.Join(Head.DORotate(new Vector3(0, 0, rotation), 0.1f));
+        sequence.AppendInterval(scaleDuration);
+        sequence.Append(Head.DOScale(new Vector3(1, 1, 1), 0.1f));
+        sequence.Join(Head.DORotate(new Vector3(0, 0, 0), 0.1f));
+        sequence.Join(Head.DOShakePosition(2.0f, strength: new Vector3(0, strength, 0), vibrato: vibrato, randomness: randomness, snapping: snapping, fadeOut: fadeOut));
+        sequence.Append(Head.DOMove(headOriginalPosition, 0.2f));
     }
 
 }
