@@ -17,6 +17,8 @@ public class WomanController : MonoBehaviour
 
     [SerializeField] List<ManController> men;
 
+    [SerializeField] ParticleSystem explosion;
+
 
     [Header ("Hand Positions")]
     [SerializeField] Transform handShownTransform;
@@ -138,8 +140,15 @@ public class WomanController : MonoBehaviour
         targetMan.BounceHead();
         timeStopped = 0;
         SceneManagerController.Instance.ShakeCamera();
+        ShowExplosion();
         HideHand();
         handTrail.enabled = false;
+    }
+
+    void ShowExplosion()
+    {
+        ParticleSystem newExplostion = Instantiate(explosion, targetMan.Head.position, Quaternion.identity);
+        Destroy(newExplostion.gameObject, 2f);
     }
 
     void HandControllers()

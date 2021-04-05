@@ -625,6 +625,7 @@ MonoBehaviour:
   - {fileID: 622623142}
   - {fileID: 208845278}
   - {fileID: 509822960}
+  explosion: {fileID: 6018949703208110731, guid: e01b6d87dea86457da77c44d983a0837, type: 3}
   handShownTransform: {fileID: 1945067933}
   handUpTransform: {fileID: 904683143}
   handDown1Transform: {fileID: 600932209}
@@ -1728,4 +1729,4 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
