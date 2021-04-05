@@ -6,6 +6,8 @@ using DG.Tweening;
 public class ManController : MonoBehaviour
 {
     [SerializeField] public Transform Head;
+
+    [Header ("Head Shake")]
     [SerializeField] float strength;
     [SerializeField] int vibrato;
     [SerializeField] int randomness;

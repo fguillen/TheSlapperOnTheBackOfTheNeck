@@ -137,6 +137,7 @@ public class WomanController : MonoBehaviour
         print("HandImpact");
         targetMan.BounceHead();
         timeStopped = 0;
+        SceneManagerController.Instance.ShakeCamera();
         HideHand();
         handTrail.enabled = false;
     }
