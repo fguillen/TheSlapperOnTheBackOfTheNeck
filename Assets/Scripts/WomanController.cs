@@ -49,7 +49,7 @@ public class WomanController : MonoBehaviour
     void Update()
     {
         Move();
-        FlipTowardsVelocity();
+        // FlipTowardsVelocity();
         UpdateTimeStopped();
         ShouldShowHand();
     }
@@ -68,14 +68,14 @@ public class WomanController : MonoBehaviour
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
-    void FlipTowardsVelocity()
-    {
-        if(
-            (rb.velocity.x < 0 && transform.localScale.x > 0) ||
-            (rb.velocity.x > 0 && transform.localScale.x < 0)
-        )
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-    }
+    // void FlipTowardsVelocity()
+    // {
+    //     if(
+    //         (rb.velocity.x < 0 && transform.localScale.x > 0) ||
+    //         (rb.velocity.x > 0 && transform.localScale.x < 0)
+    //     )
+    //         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+    // }
 
     void ShowHand()
     {
@@ -93,25 +93,25 @@ public class WomanController : MonoBehaviour
     {
         handState = HandState.hidden;
         handTweener.Kill();
-        handTweener = hand.DOLocalMove(handHiddenPosition, 0.5f);
+        handTweener = hand.DOLocalMove(handHiddenPosition, 0.3f);
     }
 
     void ShootHand()
     {
-        timeStopped = 0;
         handState = HandState.shooting;
         handTrail.enabled = true;
         // handTweener.Kill();
 
         // handTweener = hand.DOLocalMove(handUpTransform.position, 0.5f);
         Sequence handShootSequence = DOTween.Sequence();
-        handShootSequence.Append(hand.DOLocalMove(handUpTransform.localPosition, 0.5f));
+        handShootSequence.Append(hand.DOLocalMove(handUpTransform.localPosition, 0.2f));
         handShootSequence.Append(hand.DOLocalPath(new Vector3[] { handUpTransform.localPosition, handDown1Transform.localPosition, handDown2Transform.localPosition }, 0.1f, PathType.CatmullRom, PathMode.Ignore, 10).SetEase(Ease.Linear));
         handShootSequence.OnComplete(HandImpact);
     }
 
     void HandImpact()
     {
+        timeStopped = 0;
         HideHand();
         handTrail.enabled = false;
     }
@@ -124,7 +124,7 @@ public class WomanController : MonoBehaviour
         if(rb.velocity.x != 0 && (handState == HandState.showing || handState == HandState.shown))
             HideHand();
 
-        if(handState == HandState.shown && Input.GetKeyDown("space"))
+        if(Input.GetKeyDown("space"))
             ShootHand();
     }
 }
